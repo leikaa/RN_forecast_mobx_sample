@@ -4,17 +4,34 @@ import { StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useRootStore } from '../../base/hooks/useRootStore';
+import { isEmpty } from '../../base/utils/baseUtil';
 import { Container } from '../../components/Container';
 import { SearchField } from '../../components/SearchField';
+import PermissionsHelper from '../../helpers/PermissionsHelper';
 import { ForecastInfo } from './components/ForecastInfo';
 
 export const HomeMainScreen = observer(() => {
-  const { forecastStore } = useRootStore();
+  const { forecastStore, geolocationStore } = useRootStore();
 
   const insets = useSafeAreaInsets();
 
   useEffect(() => {
-    forecastStore.getForecastByCoords();
+    (async () => {
+      const isLocationPermissionGranted = await PermissionsHelper.checkLocationPermission();
+
+      if (isLocationPermissionGranted) {
+        await geolocationStore.getUserLocation();
+      }
+
+      if (!isEmpty(geolocationStore.location?.lat) && !isEmpty(geolocationStore.location?.lon)) {
+        await forecastStore.getForecastByCoords(geolocationStore.location?.lat!, geolocationStore.location?.lon!);
+      }
+    })();
+
+    return () => {
+      forecastStore.setForecast(null);
+      geolocationStore.setLocation(null);
+    };
   }, []);
 
   const handleSearch = (query: string) => {

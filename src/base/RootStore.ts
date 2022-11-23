@@ -1,12 +1,15 @@
 import React from 'react';
 
 import { ForecastStore } from '../modules/forecast/ForecastStore';
+import { GeolocationStore } from '../modules/geolocation/GeolocationStore';
 
 class RootStore {
   forecastStore: ForecastStore;
+  geolocationStore: GeolocationStore;
 
   constructor() {
     this.forecastStore = new ForecastStore();
+    this.geolocationStore = new GeolocationStore();
   }
 
   sync = async () => {

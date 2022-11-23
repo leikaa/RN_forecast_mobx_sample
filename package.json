@@ -30,7 +30,9 @@
     "react-native-bootsplash": "4.3.2",
     "@react-native-community/hooks": "2.8.1",
     "react-native-modal": "13.0.1",
-    "react-native-fast-image": "8.6.3"
+    "react-native-fast-image": "8.6.3",
+    "react-native-permissions": "3.6.1",
+    "react-native-geolocation-service": "5.3.1"
   },
   "devDependencies": {
     "@babel/core": "7.16.0",

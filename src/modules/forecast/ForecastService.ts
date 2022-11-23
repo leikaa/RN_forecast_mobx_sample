@@ -10,8 +10,8 @@ export default class ForecastService {
     this.forecastFactory = new ForecastFactory();
   }
 
-  getForecastByCoords = async (lat: number, long: number) => {
-    const { data } = await this.forecastApi.getForecastByCoords(lat, long);
+  getForecastByCoords = async (lat: number, lon: number) => {
+    const { data } = await this.forecastApi.getForecastByCoords(lat, lon);
     return this.forecastFactory.createForecast(data);
   };
 

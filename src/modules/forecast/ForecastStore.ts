@@ -16,12 +16,11 @@ export class ForecastStore {
     this.forecastService = new ForecastService();
   }
 
-  //todo forecast - add geo permissions and real coordinates
-  getForecastByCoords = () => {
+  getForecastByCoords = (lat: number, lon: number) => {
     this.setForecastLoader(true);
 
     return this.forecastService
-      .getForecastByCoords(37, 55)
+      .getForecastByCoords(lat, lon)
       .then(response => {
         this.setForecast(response);
       })

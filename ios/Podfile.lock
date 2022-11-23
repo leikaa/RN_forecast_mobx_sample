@@ -380,7 +380,7 @@ PODS:
     - React-Core
   - RNCAsyncStorage (1.17.7):
     - React-Core
-  - RNDeviceInfo (10.0.0):
+  - RNDeviceInfo (10.3.0):
     - React-Core
   - RNFastImage (8.6.3):
     - React-Core
@@ -674,7 +674,7 @@ SPEC CHECKSUMS:
   ReactNativeKeyboardManager: 4fb4d82d670ec6c00e9a2d2cc576f7cbb14975d6
   RNBootSplash: 5f346163977573d6b2aeba1b25df9d2245c0d73c
   RNCAsyncStorage: d81ee5c3db1060afd49ea7045ad460eff82d2b7d
-  RNDeviceInfo: 71e6e72867022612a537b9d36528e391c80369ad
+  RNDeviceInfo: 4701f0bf2a06b34654745053db0ce4cb0c53ada7
   RNFastImage: 5c9c9fed9c076e521b3f509fe79e790418a544e8
   RNGestureHandler: bad495418bcbd3ab47017a38d93d290ebd406f50
   RNPermissions: dcdb7b99796bbeda6975a6e79ad519c41b251b1c

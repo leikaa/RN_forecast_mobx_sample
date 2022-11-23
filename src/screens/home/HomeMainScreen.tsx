@@ -1,8 +1,10 @@
+import { useBackHandler } from '@react-native-community/hooks';
 import { observer } from 'mobx-react';
 import React, { useEffect, useState } from 'react';
 import { Keyboard, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import Navigation from '../../base/Navigation';
 import { useRootStore } from '../../base/hooks/useRootStore';
 import { isEmpty } from '../../base/utils/baseUtil';
 import { AlertModal } from '../../components/AlertModal';
@@ -11,6 +13,7 @@ import { DataShower } from '../../components/DataShower';
 import { LocationIcon } from '../../components/icons/LocationIcon';
 import LinkingHelper from '../../helpers/LinkingHelper';
 import PermissionsHelper from '../../helpers/PermissionsHelper';
+import { Screens } from '../../navigation/consts/screens';
 import { Colors } from '../../styles/Colors';
 import { SearchField } from '../../widgets/SearchField';
 import { ForecastInfo } from './components/ForecastInfo';
@@ -21,6 +24,10 @@ export const HomeMainScreen = observer(() => {
   const insets = useSafeAreaInsets();
 
   const [isGeoAlertModalVisible, setIsGeoAlertModalVisible] = useState<boolean>(false);
+
+  useBackHandler(() => {
+    return Navigation.navigationRef.current?.getCurrentRoute()?.name === Screens.HOME_MAIN;
+  });
 
   useEffect(() => {
     (async () => {

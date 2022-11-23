@@ -1,6 +1,7 @@
 import React, { useState, Ref, forwardRef, useRef } from 'react';
 import { TextInput, TextInputProps, View } from 'react-native';
 
+import { appConfig } from '../appConfig';
 import DebounceHelper from '../helpers/DebounceHelper';
 import { SearchIcon } from './icons/SearchIcon';
 import { Input } from './ui/Input';
@@ -20,7 +21,11 @@ export const SearchField = forwardRef((props: ISearchFieldProps, searchRef: Ref<
     const trimmedText = text.trim();
 
     if (props.debounceAction && query.trim() !== trimmedText) {
-      searchTimer.current = DebounceHelper.debounce(searchTimer?.current, () => props.debounceAction!(trimmedText));
+      searchTimer.current = DebounceHelper.debounce(
+        searchTimer?.current,
+        () => props.debounceAction!(trimmedText),
+        appConfig.searchDelay,
+      );
     }
   };
 

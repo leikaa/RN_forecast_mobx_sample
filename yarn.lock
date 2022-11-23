@@ -3765,6 +3765,11 @@ data-urls@^2.0.0:
     whatwg-mimetype "^2.3.0"
     whatwg-url "^8.0.0"
 
+date-fns@2.29.3:
+  version "2.29.3"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.29.3.tgz#27402d2fc67eb442b511b70bbdf98e6411cd68a8"
+  integrity sha512-dDCnyH2WnnKusqvZZ6+jA1O51Ibt8ZMRNkDZdyAyK4YfbDwa/cEmuztzG5pk6hqlp9aSBPYcjOlktquahGwGeA==
+
 dayjs@^1.8.15:
   version "1.11.3"
   resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.11.3.tgz#4754eb694a624057b9ad2224b67b15d552589258"
@@ -7331,6 +7336,11 @@ react-native-device-info@10.0.0:
   version "10.0.0"
   resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-10.0.0.tgz#4021a81640c2e70d43f9cfc6f73aae694e79ea3d"
   integrity sha512-yZ/JEcCxYp0rwsRcS3DFZ0PQhRmQOrrt6YO/aiq368MH6kb0uZyTiyTqYLXM71peHaB4duI6QjRWjAYubtlliA==
+
+react-native-fast-image@8.6.3:
+  version "8.6.3"
+  resolved "https://registry.yarnpkg.com/react-native-fast-image/-/react-native-fast-image-8.6.3.tgz#6edc3f9190092a909d636d93eecbcc54a8822255"
+  integrity sha512-Sdw4ESidXCXOmQ9EcYguNY2swyoWmx53kym2zRsvi+VeFCHEdkO+WG1DK+6W81juot40bbfLNhkc63QnWtesNg==
 
 react-native-flash-message@0.3.1:
   version "0.3.1"

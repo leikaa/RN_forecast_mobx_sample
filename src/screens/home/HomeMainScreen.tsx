@@ -1,21 +1,44 @@
 import { observer } from 'mobx-react';
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import React, { useEffect } from 'react';
+import { StyleSheet } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { Ag, Text } from '../../components/ui/Text';
+import { useRootStore } from '../../base/hooks/useRootStore';
+import { Container } from '../../components/Container';
+import { SearchField } from '../../components/SearchField';
+import { ForecastInfo } from './components/ForecastInfo';
 
 export const HomeMainScreen = observer(() => {
+  const { forecastStore } = useRootStore();
+
+  const insets = useSafeAreaInsets();
+
+  useEffect(() => {
+    forecastStore.getForecastByCoords();
+  }, []);
+
+  const handleSearch = (query: string) => {
+    if (!query) {
+      forecastStore.setForecast(null);
+      return;
+    }
+
+    forecastStore.getForecastByName(query);
+  };
+
   return (
-    <View style={styles.container}>
-      <Text ag={Ag.Regular}>Test</Text>
-    </View>
+    <Container containerStyle={[styles.container, { paddingBottom: insets.bottom + 16 }]}>
+      <SearchField placeholder={'Enter city name'} debounceAction={handleSearch} style={styles.searchContainer} />
+      {forecastStore.forecast && <ForecastInfo forecast={forecastStore.forecast} />}
+    </Container>
   );
 });
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    paddingTop: 16,
+  },
+  searchContainer: {
+    marginBottom: 24,
   },
 });

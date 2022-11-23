@@ -2,9 +2,6 @@ import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } f
 import { Platform } from 'react-native';
 
 import { appConfig } from '../../../appConfig';
-import { Screens } from '../../../navigation/consts/screens';
-import { Stacks } from '../../../navigation/consts/stacks';
-import Navigation from '../../Navigation';
 import Notification from '../../ui/Notification';
 import { IApiClient } from '../IApiClient';
 import { IAxiosConfig, IAxiosResponse } from './IAxiosInterfaces';
@@ -12,7 +9,6 @@ import { IAxiosConfig, IAxiosResponse } from './IAxiosInterfaces';
 export default class AxiosClient implements IApiClient {
   readonly SUCCESS_STATUSES = [200, 201];
   readonly SERVER_ERROR = 500;
-  readonly UNAUTHORIZED_ERROR = 401;
 
   api: AxiosInstance;
 
@@ -49,14 +45,14 @@ export default class AxiosClient implements IApiClient {
   };
 
   protected getApiErrors = (error: any) => {
-    if (error) {
-      if (Array.isArray(error)) {
-        const errorsArray = Object.values(error);
+    if (error?.message) {
+      if (error?.errors && Array.isArray(error?.errors)) {
+        const errorsArray = Object.values(error?.errors);
         const errors = Array.prototype.concat.apply([], errorsArray);
 
         Notification.showError(errors.join('\n') || 'Unknown error');
       } else {
-        Notification.showError(error || 'Unknown error');
+        Notification.showError(error?.message || 'Unknown error');
       }
     }
   };
@@ -99,19 +95,8 @@ export default class AxiosClient implements IApiClient {
       async error => {
         this.getApiErrors(error?.response?.data);
 
-        if (error.response?.status) {
-          switch (error.response?.status) {
-            case this.UNAUTHORIZED_ERROR:
-              if (Navigation.getCurrentRouteName() !== Screens.AUTH_MAIN) {
-                Navigation.replace(Stacks.AUTH_STACK, { screen: Screens.AUTH_MAIN });
-              }
-
-              break;
-
-            case this.SERVER_ERROR:
-              Notification.showError('Server error');
-              break;
-          }
+        if (error.response?.status === this.SERVER_ERROR) {
+          Notification.showError('Server error');
         }
 
         return Promise.reject(error);

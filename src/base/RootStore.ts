@@ -1,7 +1,13 @@
 import React from 'react';
 
+import { ForecastStore } from '../modules/forecast/ForecastStore';
+
 class RootStore {
-  constructor() {}
+  forecastStore: ForecastStore;
+
+  constructor() {
+    this.forecastStore = new ForecastStore();
+  }
 
   sync = async () => {
     await Promise.all(

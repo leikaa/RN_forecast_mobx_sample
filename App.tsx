@@ -11,7 +11,7 @@ const App = () => {
   return (
     <SafeAreaProvider style={styles.container}>
       <Navigator />
-      <FlashMessage position={'bottom'} />
+      <FlashMessage position={'top'} style={styles.flash} />
     </SafeAreaProvider>
   );
 };
@@ -19,6 +19,9 @@ const App = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  flash: {
+    paddingVertical: 8,
   },
 });
 

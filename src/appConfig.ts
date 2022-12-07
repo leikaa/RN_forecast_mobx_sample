@@ -12,4 +12,9 @@ export const appConfig = {
   },
 
   searchDelay: 500,
+
+  voiceRecognition: {
+    stopAfterSpeechTimer: 2,
+    stopAfterIDLETimer: 5,
+  },
 };

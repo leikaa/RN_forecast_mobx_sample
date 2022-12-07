@@ -43,6 +43,10 @@
     <string>Allow the app to access device location to determine the weather forecast?</string>
     <key>NSLocationWhenInUseUsageDescription</key>
     <string>Allow the app to access device location to determine the weather forecast?</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Allow the app to use the microphone for voice search of the weather forecast?</string>
+    <key>NSSpeechRecognitionUsageDescription</key>
+    <string>Allow the app to use speech recognition for voice search of the weather forecast?</string>
 	<key>UILaunchStoryboardName</key>
 	<string>BootSplash</string>
 	<key>UIRequiredDeviceCapabilities</key>

@@ -3,16 +3,19 @@ import React from 'react';
 import { ForecastStore } from '../modules/forecast/ForecastStore';
 import { GeolocationStore } from '../modules/geolocation/GeolocationStore';
 import { SearchStore } from '../modules/search/SearchStore';
+import { VoiceStore } from '../modules/voice/VoiceStore';
 
 class RootStore {
   forecastStore: ForecastStore;
   geolocationStore: GeolocationStore;
   searchStore: SearchStore;
+  voiceStore: VoiceStore;
 
   constructor() {
     this.forecastStore = new ForecastStore();
     this.geolocationStore = new GeolocationStore();
     this.searchStore = new SearchStore();
+    this.voiceStore = new VoiceStore();
   }
 
   sync = async () => {

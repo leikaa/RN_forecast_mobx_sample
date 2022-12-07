@@ -1,25 +1,28 @@
 import { useBackHandler } from '@react-native-community/hooks';
 import { observer } from 'mobx-react';
 import React, { useEffect, useState } from 'react';
-import { Keyboard, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Keyboard, RefreshControl, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import Navigation from '../../base/Navigation';
 import { useRootStore } from '../../base/hooks/useRootStore';
 import { isEmpty } from '../../base/utils/baseUtil';
 import { AlertModal } from '../../components/AlertModal';
-import { Container } from '../../components/Container';
 import { DataShower } from '../../components/DataShower';
-import { LocationIcon } from '../../components/icons/LocationIcon';
+import { MicrophoneIcon } from '../../components/icons/MicrophoneIcon';
+import DataFormatterHelper from '../../helpers/DataFormatterHelper';
 import LinkingHelper from '../../helpers/LinkingHelper';
 import PermissionsHelper from '../../helpers/PermissionsHelper';
+import GeolocationRenderHelper from '../../modules/geolocation/helpers/GeolocationRenderHelper';
 import { Screens } from '../../navigation/consts/screens';
 import { Colors } from '../../styles/Colors';
 import { SearchField } from '../../widgets/SearchField';
 import { ForecastInfo } from './components/ForecastInfo';
 
+//todo forecast - add locales to switch between
+//todo forecast - date-time should be according to location time-zone
 export const HomeMainScreen = observer(() => {
-  const { forecastStore, geolocationStore, searchStore } = useRootStore();
+  const { forecastStore, geolocationStore, searchStore, voiceStore } = useRootStore();
 
   const insets = useSafeAreaInsets();
 
@@ -32,7 +35,6 @@ export const HomeMainScreen = observer(() => {
   useEffect(() => {
     (async () => {
       const isLocationPermissionGranted = await PermissionsHelper.checkLocationPermission();
-
       await handleLocationForecast(isLocationPermissionGranted);
     })();
 
@@ -43,6 +45,25 @@ export const HomeMainScreen = observer(() => {
     };
   }, []);
 
+  useEffect(() => {
+    voiceStore.initVoiceRecognition();
+
+    return () => {
+      voiceStore.resetVoiceRecognition();
+    };
+  }, []);
+
+  useEffect(() => {
+    voiceStore.stopVoiceRecognition();
+  }, [voiceStore.speechTimer, voiceStore.startTimer]);
+
+  useEffect(() => {
+    if (!voiceStore.isStarted && voiceStore.speechResults.length) {
+      searchStore.setSearchQuery(DataFormatterHelper.ucFirst(voiceStore.speechResults[0].toLowerCase()));
+      forecastStore.getForecastByName(searchStore.searchQuery);
+    }
+  }, [voiceStore.speechResults]);
+
   const handleSearchByText = (query: string) => {
     if (!query) {
       forecastStore.setForecast(null);
@@ -52,18 +73,17 @@ export const HomeMainScreen = observer(() => {
     forecastStore.getForecastByName(query);
   };
 
-  const handleSearchLocation = async () => {
-    Keyboard.dismiss();
+  const handleRefresh = async () => {
     searchStore.setSearchQuery('');
 
-    const isLocationPermissionGranted = await PermissionsHelper.checkLocationPermission();
+    const isPermissionGranted = await GeolocationRenderHelper.shouldRequestGeolocation(handleChangeGeoModalVisibility);
 
-    if (!isLocationPermissionGranted) {
-      handleChangeGeoModalVisibility();
-      return;
-    }
+    await handleLocationForecast(isPermissionGranted);
+    Keyboard.dismiss();
+  };
 
-    await handleLocationForecast(isLocationPermissionGranted);
+  const handleVoiceRecognition = () => {
+    voiceStore.startVoiceRecognition(handleChangeGeoModalVisibility);
   };
 
   const handleLocationForecast = async (isLocationPermissionGranted: boolean) => {
@@ -83,11 +103,19 @@ export const HomeMainScreen = observer(() => {
   };
 
   return (
-    <Container containerStyle={[styles.container, { paddingBottom: insets.bottom + 16 }]}>
+    <ScrollView
+      contentContainerStyle={[styles.contentContainer, { paddingBottom: insets.bottom + 16 }]}
+      keyboardShouldPersistTaps={'handled'}
+      showsVerticalScrollIndicator={false}
+      refreshControl={<RefreshControl refreshing={false} onRefresh={handleRefresh} />}
+    >
       <View style={styles.searchContainer}>
         <SearchField placeholder={'Enter city name'} debounceAction={handleSearchByText} style={styles.searchField} />
-        <TouchableOpacity onPress={handleSearchLocation} style={styles.searchLocation}>
-          <LocationIcon color={Colors.white} />
+        <TouchableOpacity
+          onPress={handleVoiceRecognition}
+          style={[styles.iconButton, voiceStore.isStarted && styles.iconActive]}
+        >
+          <MicrophoneIcon color={Colors.white} />
         </TouchableOpacity>
       </View>
 
@@ -103,13 +131,15 @@ export const HomeMainScreen = observer(() => {
         leftButtonAction={handleChangeGeoModalVisibility}
         rightButtonAction={LinkingHelper.openSettings}
       />
-    </Container>
+    </ScrollView>
   );
 });
 
 const styles = StyleSheet.create({
-  container: {
+  contentContainer: {
     paddingTop: 16,
+    paddingHorizontal: 16,
+    flexGrow: 1,
   },
   searchContainer: {
     flexDirection: 'row',
@@ -119,11 +149,14 @@ const styles = StyleSheet.create({
     flex: 1,
     marginRight: 10,
   },
-  searchLocation: {
+  iconButton: {
     width: 50,
     backgroundColor: Colors.primary,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 5,
+  },
+  iconActive: {
+    backgroundColor: Colors.green,
   },
 });

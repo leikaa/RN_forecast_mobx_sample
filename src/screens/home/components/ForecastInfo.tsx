@@ -37,9 +37,11 @@ export const ForecastInfo = (props: IForecastInfoProps) => {
 
   return (
     <View style={styles.container}>
-      <Text ag={Ag.Regular} style={styles.infoItem}>
-        {DateHelper.getCurrentDate(DateTypes.dayMonthCommaHoursMinutes)}
-      </Text>
+      {!isEmpty(props.forecast.timezone) && (
+        <Text ag={Ag.Regular} style={styles.infoItem}>
+          {DateHelper.getFormattedLocationDate(props.forecast.timezone!, DateTypes.dayMonthCommaHoursMinutes)}
+        </Text>
+      )}
 
       {isTrue(props.forecast.name) && (
         <Text ag={Ag.H2} style={styles.infoItem}>

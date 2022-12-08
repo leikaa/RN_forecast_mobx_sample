@@ -19,8 +19,7 @@ import { Colors } from '../../styles/Colors';
 import { SearchField } from '../../widgets/SearchField';
 import { ForecastInfo } from './components/ForecastInfo';
 
-//todo forecast - add locales to switch between
-//todo forecast - date-time should be according to location time-zone
+//todo forecast - add locales to switch between (date, forecast, voice)
 export const HomeMainScreen = observer(() => {
   const { forecastStore, geolocationStore, searchStore, voiceStore } = useRootStore();
 

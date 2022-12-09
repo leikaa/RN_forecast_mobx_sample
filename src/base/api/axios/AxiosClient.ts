@@ -2,6 +2,7 @@ import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } f
 import { Platform } from 'react-native';
 
 import { appConfig } from '../../../appConfig';
+import { LangsType } from '../../../modules/langs/types/Langs';
 import Notification from '../../ui/Notification';
 import { IApiClient } from '../IApiClient';
 import { IAxiosConfig, IAxiosResponse } from './IAxiosInterfaces';
@@ -22,6 +23,10 @@ export default class AxiosClient implements IApiClient {
 
   setAccessToken = (token: string, tokenType: string = 'Bearer') => {
     this.api.defaults.headers.Authorization = `${tokenType} ${token}`;
+  };
+
+  setLanguage = (language: LangsType) => {
+    (this.api.defaults.headers as any)['Accept-Language'] = language;
   };
 
   clearAccessToken = () => {

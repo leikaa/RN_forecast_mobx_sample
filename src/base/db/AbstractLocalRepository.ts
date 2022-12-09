@@ -9,7 +9,7 @@ export default abstract class AbstractLocalRepository {
     [LocalClientTypes.localStorage]: new LocalStorageClient(),
   };
 
-  protected constructor(localClientType = LocalClientTypes.localStorage) {
+  constructor(localClientType = LocalClientTypes.localStorage) {
     this.setLocalClient(AbstractLocalRepository.clients[localClientType]);
   }
 

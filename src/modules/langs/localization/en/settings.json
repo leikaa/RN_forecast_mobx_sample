@@ -1,0 +1,11 @@
+{
+  "screens": {
+    "main": {
+      "title": "Settings",
+      "language": "Language"
+    },
+    "language": {
+      "title": "Language"
+    }
+  }
+}

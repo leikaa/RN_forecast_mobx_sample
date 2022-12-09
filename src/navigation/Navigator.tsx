@@ -7,6 +7,7 @@ import { Colors } from '../styles/Colors';
 import { Stacks } from './consts/stacks';
 import HomeStack from './stacks/HomeStack';
 import InitStack from './stacks/InitStack';
+import SettingsStack from './stacks/SettingsStack';
 
 const Stack = createStackNavigator();
 
@@ -24,6 +25,7 @@ const Navigator = () => {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name={Stacks.INIT_STACK} component={InitStack} />
         <Stack.Screen name={Stacks.HOME_STACK} component={HomeStack} />
+        <Stack.Screen name={Stacks.SETTINGS_STACK} component={SettingsStack} />
       </Stack.Navigator>
     </NavigationContainer>
   );

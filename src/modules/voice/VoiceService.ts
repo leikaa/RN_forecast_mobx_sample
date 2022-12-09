@@ -7,9 +7,9 @@ import Voice, {
   SpeechVolumeChangeEvent,
 } from '@react-native-voice/voice';
 
-import { appConfig } from '../../appConfig';
 import { Nullable } from '../../base/types/BaseTypes';
 import { isEmpty, isTrue } from '../../base/utils/baseUtil';
+import { Localization } from '../langs/LangsAdapter';
 import VoiceFactory from './VoiceFactory';
 
 export default class VoiceService {
@@ -23,7 +23,7 @@ export default class VoiceService {
 
   startRecognizing = async () => {
     try {
-      await Voice.start(appConfig.forecast.lang);
+      await Voice.start(Localization.language);
     } catch (error) {}
   };
 

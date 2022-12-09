@@ -1,4 +1,5 @@
 import { isEmpty } from '../../../base/utils/baseUtil';
+import { Localization } from '../../langs/LangsAdapter';
 import { Forecast } from '../models/Forecast';
 import { WeatherShort } from '../models/WeatherShort';
 
@@ -25,7 +26,9 @@ export default class ForecastRenderHelper {
     let description = '';
 
     if (!isEmpty(forecast.main?.feels_like)) {
-      description += `Feels like ${Math.round(forecast.main?.feels_like!)} \u00b0C`;
+      description += `${Localization.t('forecast:screens.main.feelsLike')} ${Math.round(
+        forecast.main?.feels_like!,
+      )} \u00b0C`;
     }
 
     return description;

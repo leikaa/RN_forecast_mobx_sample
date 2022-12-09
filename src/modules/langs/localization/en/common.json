@@ -1,0 +1,14 @@
+{
+  "buttons": {
+    "cancel": "Cancel",
+    "settings": "Settings"
+  },
+  "inputs": {
+    "searchCity": "Enter city name"
+  },
+  "modals": {
+    "geoPermission": {
+      "title": "You need to provide access to the location"
+    }
+  }
+}

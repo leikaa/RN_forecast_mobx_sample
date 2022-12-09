@@ -10,7 +10,7 @@ const Stack = createStackNavigator<InitStackParamList>();
 export default () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name={Screens.INIT_MAIN} component={InitScreen} options={{ headerShown: false }} />
+      <Stack.Screen name={Screens.INIT_MAIN} component={InitScreen} />
     </Stack.Navigator>
   );
 };
